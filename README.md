@@ -12,30 +12,30 @@ It's a React, Express, Electron, Adobe CEP, AWS stack to be able to deploy one m
 
 The project is organised across these repository
 
-- [`bbc/digital-paper-edit-client`](https://github.com/bbc/digital-paper-edit-client) - React Client - [npm](https://www.npmjs.com/package/@bbc/digital-paper-edit-client)
-- [`bbc/digital-paper-edit-react-components`](https://github.com/bbc/digital-paper-edit-react-components) - React Storybook for Client components - `npm`.
-- [`bbc/digital-paper-edit-api`](https://github.com/bbc/digital-paper-edit-api) - Express server API - [npm](https://www.npmjs.com/package/@bbc/digital-paper-edit-api)
-- [`bbc/digital-paper-edit-infrastructure`](https://github.com/bbc/digital-paper-edit-infrastructure) - AWS infrastructure for API server and Client.
-- [`bbc/digital-paper-edit-electron`](https://github.com/bbc/digital-paper-edit-electron) - Electron, Cross Platform Desktop app - Mac, Windows, Linux
-- [`bbc/digital-paper-edit-cep`](https://github.com/bbc/digital-paper-edit-cep) Adobe CEP (Common Extensibility Platform) - Premiere Pro Plugin Panel
+- [`pietrop/digital-paper-edit-client`](https://github.com/pietrop/digital-paper-edit-client) - React Client - [npm](https://www.npmjs.com/package/@pietrop/digital-paper-edit-client)
+- [`pietrop/digital-paper-edit-storybook`](https://github.com/pietrop/digital-paper-edit-storybook) - React Storybook for Client components - `npm`.
+- [`pietrop/digital-paper-edit-api`](https://github.com/pietrop/digital-paper-edit-api) - Express server API - [npm](https://www.npmjs.com/package/@pietrop/digital-paper-edit-api)
+- [`pietrop/digital-paper-edit-infrastructure`](https://github.com/pietrop/digital-paper-edit-infrastructure) - AWS infrastructure for API server and Client.
+- [`pietrop/digital-paper-edit-electron`](https://github.com/pietrop/digital-paper-edit-electron) - Electron, Cross Platform Desktop app - Mac, Windows, Linux
+- [`pietrop/digital-paper-edit-cep`](https://github.com/pietrop/digital-paper-edit-cep) Adobe CEP (Common Extensibility Platform) - Premiere Pro Plugin Panel
 
 Micro services for web app backend
 
-- [`bbc/digital-paper-edit-stt-proxy`](https://github.com/bbc/digital-paper-edit-stt-proxy) - An express server to connect to STT service
-- [`bbc/digital-paper-edit-video-preview-converter`](https://github.com/bbc/digital-paper-edit-video-preview-converter) - An express server to generate an mp4 video preview using ffmpeg
-- [`bbc/digital-paper-edit-audio-converter`](https://github.com/bbc/digital-paper-edit-audio-converter) - An express server to generate an audio file with the stt specs to be able to send it to `STT Proxy`.
+- [`pietrop/digital-paper-edit-stt-proxy`](https://github.com/pietrop/digital-paper-edit-stt-proxy) - An express server to connect to STT service
+- [`pietrop/digital-paper-edit-video-preview-converter`](https://github.com/pietrop/digital-paper-edit-video-preview-converter) - An express server to generate an mp4 video preview using ffmpeg
+- [`pietrop/digital-paper-edit-audio-converter`](https://github.com/pietrop/digital-paper-edit-audio-converter) - An express server to generate an audio file with the stt specs to be able to send it to `STT Proxy`.
 
 [See here to see them as a list in github](https://github.com/topics/digital-paper-edit).
 
-See [modular architecture section](./docs/guides/modular-architecture.md) for more details on the stack and the [Modular Architecture ADR for more info on the implementation](https://github.com/bbc/digital-paper-edit-client/blob/master/docs/ADR/2019-05-09-modular-architecture.md)
+See [modular architecture section](./docs/guides/modular-architecture.md) for more details on the stack and the [Modular Architecture ADR for more info on the implementation](https://github.com/pietrop/digital-paper-edit-client/blob/master/docs/ADR/2019-05-09-modular-architecture.md)
 
 The projects use [npm semantic versioning](https://docs.npmjs.com/about-semantic-versioning)
 
-![](https://raw.githubusercontent.com/bbc/digital-paper-edit-infrastructure/master/docs/adr/newest_arch.png)
+<!-- ![](https://raw.githubusercontent.com/pietrop/digital-paper-edit-infrastructure/master/docs/adr/newest_arch.png) -->
 
-Between the 5 June and 17 July there is a sprint board used for organising the backlog for each two-week sprint cycle.
+<!-- Between the 5 June and 17 July there is a sprint board used for organising the backlog for each two-week sprint cycle. -->
 
-- [BBC News Labs - Digital Paper Edit - Sprint Board](https://github.com/orgs/bbc/projects/33) is a Github project board [with linked repository](https://help.github.com/en/articles/linking-a-repository-to-a-project-board) where issues are added from the relevant repository listed in architecture section.
+<!-- - [BBC News Labs - Digital Paper Edit - Sprint Board](https://github.com/orgs/bbc/projects/33) is a Github project board [with linked repository](https://help.github.com/en/articles/linking-a-repository-to-a-project-board) where issues are added from the relevant repository listed in architecture section. -->
 
 The project is divided into [concurrent milestones as described here](https://github.com/bbc/digital-paper-edit-client/milestones)
 
@@ -60,7 +60,7 @@ _How to build and run the code/app_ -->
 See _optional_ [getting setup with the visual code workspace](docs/guides/visual-code-workspace-setup.md) to get up and running with the various repository needed for this project.
 
 ```
-git clone git@github.com:bbc/digital-paper-edit-client.git
+git clone git@github.com:pietrop/digital-paper-edit-client.git
 ```
 
 ```
@@ -105,18 +105,18 @@ make start-electron
 
 ## Usage - production
 
-The project is also publicly available in the npm registry [`@bbc/digital-paper-edit-client`](https://www.npmjs.com/package/@bbc/digital-paper-edit-client)
+The project is also publicly available in the npm registry [`@pietrop/digital-paper-edit-client`](https://www.npmjs.com/package/@bbc/digital-paper-edit-client)
 
 you can add it to your project
 
 ```
-npm install @bbc/digital-paper-edit-client
+npm install @pietrop/digital-paper-edit-client
 ```
 
 and eg in an express server you can serve the static build as follows
 
 ```
-app.use("/", express.static(path.join(__dirname, '..', 'node_modules/@bbc/digital-paper-edit-client')));
+app.use("/", express.static(path.join(__dirname, '..', 'node_modules/@pietrop/digital-paper-edit-client')));
 ```
 
 ## System Architecture
@@ -256,7 +256,7 @@ for more info on Create React app deployment:
 
 ## Demo page on github pages
 
-To update demo on github pages [bbc.github.io/digital-paper-edit-client](https://bbc.github.io/digital-paper-edit-client)
+To update demo on github pages [pietrop.github.io/digital-paper-edit-client](https://pietrop.github.io/digital-paper-edit-client)
 
 ```
 npm run deploy:ghpages
@@ -274,4 +274,4 @@ See [LICENCE](./LICENCE.md)
 
 ## Legal Disclaimer
 
-_Despite using React and DraftJs, the BBC is not promoting any Facebook products or other commercial interest._
+_Despite using React and DraftJs, this repo is not promoting any Facebook products or other commercial interest._

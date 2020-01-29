@@ -3,12 +3,12 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Card from 'react-bootstrap/Card';
 import cuid from 'cuid';
-import PreviewCanvas from '@bbc/digital-paper-edit-react-components/PreviewCanvas';
+import PreviewCanvas from '@pietrop/digital-paper-edit-react-components/PreviewCanvas';
 import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
 import EDL from 'edl_composer';
-import generateADL from '@bbc/aes31-adl-composer';
-import jsonToFCPX from '@bbc/fcpx-xml-composer';
+import generateADL from '@pietrop/aes31-adl-composer';
+import jsonToFCPX from '@pietrop/fcpx-xml-composer';
 import downloadjs from 'downloadjs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
@@ -23,7 +23,7 @@ import {
   faSave
 } from '@fortawesome/free-solid-svg-icons';
 import timecodes from 'node-timecodes';
-import ProgrammeScriptContainer from '@bbc/digital-paper-edit-react-components/ProgrammeScriptContainer';
+import ProgrammeScriptContainer from '@pietrop/digital-paper-edit-react-components/ProgrammeScriptContainer';
 import getDataFromUserWordsSelection from './get-data-from-user-selection.js';
 import { divideWordsSelectionsIntoParagraphs, isOneParagraph } from './divide-words-selections-into-paragraphs';
 import ApiContext from '../../../Context/ApiContext';
