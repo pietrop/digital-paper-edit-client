@@ -4,18 +4,15 @@
  */
 function whichJsEnv() {
   // Is browser Eg client side app or locally testing (Node)
-  if (
-    window.process === undefined ||
-    window.process.versions.node !== undefined
-  ) {
-    if (process.env.REACT_APP_NODE_ENV === 'demo') {
+  if ( window.process === undefined || (window.process.versions === undefined || window.process.versions.node === undefined) ) {
+    if ( window.process !== undefined && window.process.env.REACT_APP_NODE_ENV === 'demo') {
       return 'demo';
     }
 
     return 'browser';
   }
 
-  if (window.process.versions.electron !== undefined) {
+  if (window.process.versions.electron && window.process.versions.electron !== undefined) {
     return 'electron';
   }
 
