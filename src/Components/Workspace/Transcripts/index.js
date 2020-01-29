@@ -11,7 +11,7 @@ const Transcripts = (props) => {
   const [ items, setItems ] = useState([]);
   const [ isInProgress, setIsInProgress ] = useState(false);
   const [ interval, setInterval ] = useState();
-  const type = 'Transcript';
+  
 
   const isTranscriptionInProgress = (transcripts) => {
     if (transcripts.length !== 0) {
@@ -136,7 +136,7 @@ const Transcripts = (props) => {
     <ApiContext.Consumer>
       {() => (
         <ItemsContainer
-          type={ type }
+          type={ 'transcript' }
           items={ items }
           handleSave={ handleSave }
           handleDelete={ handleDelete }

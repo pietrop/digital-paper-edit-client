@@ -93,6 +93,7 @@ const ItemsContainer = (props) => {
     searchEl = <SearchBar handleSearch={ handleSearch } />;
     showItems = (
       <List
+        type={ props.type }
         items={ items }
         handleEditItem={ handleEditItem }
         handleDeleteItem={ handleDeleteItem }
