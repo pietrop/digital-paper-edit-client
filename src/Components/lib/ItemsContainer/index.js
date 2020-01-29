@@ -123,6 +123,7 @@ const ItemsContainer = (props) => {
         { ...formData }
         modalTitle={ formData.id ? `Edit ${ type }` : `New ${ type }` }
         showModal={ showModal }
+        handleOnHide={toggleShowModal}
         handleSaveForm={ handleSaveForm }
         itemType={ type.toLowerCase }
       />
