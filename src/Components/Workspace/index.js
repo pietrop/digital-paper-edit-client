@@ -7,7 +7,7 @@ import Col from 'react-bootstrap/Col';
 import CustomFooter from '../lib/CustomFooter';
 import Transcripts from './Transcripts';
 import PaperEdits from './PaperEdits';
-import Breadcrumb from '@pietrop/digital-paper-edit-react-components/Breadcrumb';
+import Breadcrumb from '@pietrop/digital-paper-edit-storybook/Breadcrumb';
 
 import ApiContext from '../../Context/ApiContext';
 

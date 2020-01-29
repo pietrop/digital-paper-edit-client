@@ -6,9 +6,9 @@ import PropTypes from 'prop-types';
 
 import { anyInText } from '../../../Util/in-text';
 import arrayMatch from '../../../Util/array-match';
-import List from '@pietrop/digital-paper-edit-react-components/List';
-import SearchBar from '@pietrop/digital-paper-edit-react-components/SearchBar';
-import FormModal from '@pietrop/digital-paper-edit-react-components/FormModal';
+import List from '@pietrop/digital-paper-edit-storybook/List';
+import SearchBar from '@pietrop/digital-paper-edit-storybook/SearchBar';
+import FormModal from '@pietrop/digital-paper-edit-storybook/FormModal';
 
 const initialFormState = {
   title: '',

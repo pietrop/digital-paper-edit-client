@@ -9,7 +9,7 @@ import {
   faAngleUp,
   faAngleDown
 } from '@fortawesome/free-solid-svg-icons';
-import Breadcrumb from '@pietrop/digital-paper-edit-react-components/Breadcrumb';
+import Breadcrumb from '@pietrop/digital-paper-edit-storybook/Breadcrumb';
 
 import Transcripts from './Transcripts/index.js';
 import ProgrammeScript from './ProgrammeScript';

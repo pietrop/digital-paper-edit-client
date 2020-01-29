@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Breadcrumb from '@pietrop/digital-paper-edit-react-components/Breadcrumb';
+import Breadcrumb from '@pietrop/digital-paper-edit-storybook/Breadcrumb';
 import CustomFooter from '../lib/CustomFooter';
 import ItemsContainer from '../lib/ItemsContainer';
 import ApiContext from '../../Context/ApiContext';

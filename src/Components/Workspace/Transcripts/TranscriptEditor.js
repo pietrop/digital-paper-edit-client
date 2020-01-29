@@ -11,8 +11,8 @@ import Button from 'react-bootstrap/Button';
 // import { Redirect } from 'react-router-dom';
 import ApiContext from '../../../Context/ApiContext';
 
-import Breadcrumb from '@pietrop/digital-paper-edit-react-components/Breadcrumb';
-import CustomAlert from '@pietrop/digital-paper-edit-react-components/CustomAlert';
+import Breadcrumb from '@pietrop/digital-paper-edit-storybook/Breadcrumb';
+import CustomAlert from '@pietrop/digital-paper-edit-storybook/CustomAlert';
 
 class TranscriptEditor extends Component {
   static contextType = ApiContext

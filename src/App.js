@@ -1,7 +1,7 @@
 import React from 'react';
 import 'bootstrap-css-only/css/bootstrap.css';
 import ApiContext from './Context/ApiContext';
-import CustomAlert from '@pietrop/digital-paper-edit-react-components/CustomAlert';
+import CustomAlert from '@pietrop/digital-paper-edit-storybook/CustomAlert';
 import Container from 'react-bootstrap/Container';
 import Alert from 'react-bootstrap/Alert';
 import Routes from './Routes';
