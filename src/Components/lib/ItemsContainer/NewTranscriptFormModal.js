@@ -1,6 +1,8 @@
+// Not in use in this repo 
 import React from 'react';
 import Modal from 'react-bootstrap/Modal';
-import TranscriptForm from '@pietrop/digital-paper-edit-storybook/TranscriptForm';
+// import TranscriptForm from '@pietrop/digital-paper-edit-storybook/TranscriptForm';
+import TranscriptForm from './TranscriptForm.js';
 
 class NewTranscriptFormModal extends React.Component {
   constructor(props) {
@@ -28,6 +30,7 @@ class NewTranscriptFormModal extends React.Component {
             id={ this.props.id }
             handleSaveForm={ this.props.handleSaveForm }
             handleCloseModal={ this.props.handleCloseModal }
+            type={'transcript'}
           />
         </Modal.Body>
       </Modal>
