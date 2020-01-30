@@ -94,7 +94,7 @@ class ApiWrapper {
 
   async updateTranscript(projectId, transcriptId, queryParamsOptions, data) {
     const res = await corsFetch(this.transcriptsIdUrl(projectId, transcriptId, queryParamsOptions), 'PUT', data);
-
+    // return await res.json();
     return res;
   }
 

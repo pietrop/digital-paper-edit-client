@@ -75,6 +75,7 @@ const Transcripts = (props) => {
     );
 
     if (response.ok) {
+      console.log(' response', response)
       const editedTranscript = response.transcript;
       const index = items.findIndex(pe => pe.id === id);
       const originalTranscript = items[index];
