@@ -23,7 +23,8 @@ import {
   faHeading,
   faMicrophoneAlt,
   faStickyNote,
-  faPaste
+  faPaste,
+  faCut
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -47,7 +48,8 @@ const SortableItem = sortableElement(({
   handleEdit, 
   handleAddTranscriptElementToProgrammeScript,
   handleAddTranscriptSelectionToProgrammeScriptTmpSave,
-  handleChangeInsertPointPosition 
+  handleChangeInsertPointPosition,
+  cutMoveSection 
 } ) => {
 
   const [isContextMenuVisible, setContextMenuVisibility] = useState(false);
@@ -77,12 +79,16 @@ const SortableItem = sortableElement(({
       <Col xs={ 1 } sm={ 1 } md={ 1 } ld={ 1 } xl={ 1 } style={ { backgroundColor: type === 'insert-point' ? 'orange' : '' } }>
         <DragHandle />
       </Col>
-      <Col xs={ 8 } sm={ 9 } md={ 9 } ld={ 9 } xl={ 9 } style={ { backgroundColor: type === 'insert-point' ? 'orange' : '' } }>
+      <Col xs={ 7 } sm={ 8 } md={ 8 } ld={ 8 } xl={ 8 } style={ { backgroundColor: type === 'insert-point' ? 'orange' : '' } }>
         {value}
+      </Col>
+      <Col xs={ 1 } sm={ 1 } md={ 1 } ld={ 1 } xl={ 1 }>
+      { type==='title'? <FontAwesomeIcon className={ 'text-muted' }   style={{ cursor: 'pointer'}}  icon={faCut} onClick={ () => {cutMoveSection(indexNumber);} }  /> :null}
       </Col>
       <Col xs={ 1 } sm={ 1 } md={ 1 } ld={ 1 } xl={ 1 } style={ { backgroundColor: type === 'insert-point' ? 'orange' : '' } }>
         {/* TODO: if paper-cut  then don't show edit/pen icon */}
         {type !== 'paper-cut' && type !== 'insert-point' ? <FontAwesomeIcon className={ 'text-muted' } style={{ cursor: 'pointer'}} icon={ faPen } onClick={ () => { handleEdit(indexNumber); } } /> : null}
+      
       </Col>
       <Col xs={ 1 } sm={ 1 } md={ 1 } ld={ 1 } xl={ 1 } style={ { backgroundColor: type === 'insert-point' ? 'orange' : '' } }>
         {/* TODO: pass a prop to remove element from list */}

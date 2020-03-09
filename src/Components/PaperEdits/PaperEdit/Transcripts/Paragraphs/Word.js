@@ -25,6 +25,7 @@ class Word extends Component {
 
     return (
       <span
+      style={{cursor: 'pointer'}}
         title={ `start:${ word.start } - end:${ word.end }` }
         data-prev-times = { this.generatePreviousTimes( word.start) }
         className={ [ 'words',

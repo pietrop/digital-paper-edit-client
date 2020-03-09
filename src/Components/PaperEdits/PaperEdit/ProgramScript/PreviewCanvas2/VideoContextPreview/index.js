@@ -7,7 +7,7 @@ import VideoContext from 'videocontext';
 
 const VideoContextPreview = (props) => {
   const [ videoContext, setVideoContext ] = useState();
-
+  // const [videoContextCurrentTime, setVideoContextCurrentTime] = useState(0);
   const updateVideoContext = (media) => {
     media.forEach(({ type, sourceStart, start, duration, src }) => {
       const node = videoContext[type](src, sourceStart);
@@ -41,6 +41,30 @@ const VideoContextPreview = (props) => {
     return new Date(seconds * 1000).toISOString().substr(11, 8);
   };
 
+  const setCurrentTime = (inPoint) =>{
+    console.log('setCurrentTime', inPoint,videoContext.duration)
+    if (videoContext) {
+      if(inPoint<= videoContext.duration){
+        console.log('about to  videoContext.currentTime ')
+        videoContext.currentTime = inPoint;
+      }
+    }
+  }
+
+  if(props.newCurrentTime!==0){
+    console.log('newCurrentTime', props.newCurrentTime)
+    setCurrentTime(props.newCurrentTime)
+  }
+  // if (videoContext) {
+  //   videoContext.registerCallback(VideoContext.EVENTS.UPDATE, () => {
+  //     console.log("new frame"); 
+  //     console.log(videoContext.currentTime);
+  //     setVideoContextCurrentTime(videoContext.currentTime)
+  //   });
+  //   // ctx.unregisterCallback(updateCallback);
+  // }
+  // videoContext.currentTime = (offsetX / width) * videoContext.duration;
+  // setCurrentTime(3)
   return (
     <>
       <Row
@@ -67,6 +91,7 @@ const VideoContextPreview = (props) => {
         />
       </Row>
       <Row className={ 'justify-content-center' }>
+        {/* Current Time: {videoContext ? secondsToHHMMSSFormat(videoContextCurrentTime) : '00:00:00'} */}
         Total duration: {videoContext ? secondsToHHMMSSFormat(videoContext.duration) : '00:00:00'}
       </Row>
     </>

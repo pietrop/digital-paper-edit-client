@@ -58,6 +58,7 @@ class ProgramScript extends Component {
       programmeScript: null,
       resetPreview: false,
       isAdvancedSelect: false,
+      previewCanvasNewCurrentTime: 0,
       // demo content
       playlist:[
         // start - is relative to timeline
@@ -652,16 +653,6 @@ class ProgramScript extends Component {
     });
   }
 
-  handleDoubleClickOnProgrammeScript = (e) => {
-
-    if (e.target.className === 'words') {
-      const wordCurrentTime = e.target.dataset.start;
-      // TODO: set current time in preview canvas
-      // Video context probably needs more info like, which clip/track in the sequence?
-      // investigate how to set currentTime in video context
-    }
-  }
-
   handleSaveProgrammeScript = () => {
     const { programmeScript } = this.state;
     // cloning programmeScript to avoid overriding original
@@ -796,6 +787,17 @@ class ProgramScript extends Component {
     })
   }
 
+  // TODO: not fully working because, the currentTime needs to be adjusted for offest from beginning of new sequence.
+  // as opposed to relative to original transcript 
+  handleDoubleClickOnProgrammeScript = (e) => {
+    if (e.target.className === 'words') {
+      const wordCurrentTime = parseFloat(e.target.dataset.start);
+      console.log('wordCurrentTime',wordCurrentTime)
+        this.setState({
+          previewCanvasNewCurrentTime: wordCurrentTime
+        })
+    }
+  }
 
   render() {
     return (
@@ -803,8 +805,11 @@ class ProgramScript extends Component {
         <Card>
           <Card.Header style={{ padding: '1em',paddingTop: '0em'}}>
             { !this.state.resetPreview ?
-              <PreviewCanvas playlist={ this.state.playlist }
+              <PreviewCanvas 
+              //  ref={this.previewCanvasRef}
+               playlist={ this.state.playlist }
                width={ 300 }
+               newCurrentTime={this.state.previewCanvasNewCurrentTime}
                />
               : null }
           </Card.Header>
@@ -988,6 +993,7 @@ class ProgramScript extends Component {
             <article
               style={ { height: '55vh', overflow: 'scroll' } }
               onDoubleClick={ this.handleDoubleClickOnProgrammeScript }
+              
             >
               { this.state.programmeScript ? <ProgrammeScript
                 programmeScriptElements={ this.state.programmeScript.elements }
@@ -997,6 +1003,7 @@ class ProgramScript extends Component {
                 handleAddTranscriptElementToProgrammeScript={this.handleAddTranscriptElementToProgrammeScript}
                 handleAddTranscriptSelectionToProgrammeScriptTmpSave={this.handleAddTranscriptSelectionToProgrammeScriptTmpSave}
                 handleChangeInsertPointPosition={this.handleChangeInsertPointPosition}
+               
                 />
                 : null }
             </article>
