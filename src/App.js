@@ -4,6 +4,7 @@ import 'bootstrap-css-only/css/bootstrap.css';
 import Projects from './Components/Projects/index.js';
 import Project from './Components/Projects/Project.js';
 import TranscriptCorrect from './Components/Transcripts/TranscriptCorrect.js';
+import TranscriptDiff from './Components/Transcripts/TranscriptDiff.js';
 import PaperEdit from './Components/PaperEdits/PaperEdit';
 import CustomAlert from './Components/lib/CustomAlert';
 import Container from 'react-bootstrap/Container';
@@ -66,6 +67,11 @@ class App extends Component {
             exact
             path="/projects/:projectId/transcripts/:transcriptId/correct"
             component={ TranscriptCorrect }
+          />
+          <Route
+            exact
+            path="/projects/:projectId/transcripts/:transcriptId/diff"
+            component={ TranscriptDiff }
           />
           <Route
             exact
