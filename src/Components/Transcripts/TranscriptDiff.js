@@ -54,13 +54,11 @@ function Diff(props) {
   useEffect(() => {
     async function fetchData() {
       const result = await ApiWrapper.getTranscript(projectId, transcriptId);
-      console.log('result', result);
       setProjectTitle(result.projectTitle);
       setTranscriptTitle(result.transcriptTitle);
       setTranscriptData(result);
       setGuid(result.guid);
       setUrl(result.url);
-      setSttTranscript(result.transcript.words);
       const correctPlainText = result.transcript.words.map((word)=>{
           return word.text;
       }).join(' ')
@@ -69,10 +67,14 @@ function Diff(props) {
               // otherwise say comparison not available on transcripts done before version 1.0.12
         const resultSttOriginalTranscript = await ApiWrapper.getOriginalSttTranscripts(projectId, result.id);
         console.log('resultSttOriginalTranscript', resultSttOriginalTranscript) 
-        if(resultSttOriginalTranscript.transcript){
-            const resultHtml = diffsListAsHtml(resultSttOriginalTranscript.transcript, correctPlainText);//result.url
+        if(resultSttOriginalTranscript && resultSttOriginalTranscript.transcript){
+            setSttTranscript(resultSttOriginalTranscript.transcript);
+            const resultHtml = diffsListAsHtml(resultSttOriginalTranscript.transcript, correctPlainText);
             setResultHtml(resultHtml);
             setIsPublished(isPublished);
+        }
+        else{
+          console.info('no transcript stt diff available')
         }
     }catch(e){
         console.error(e)
@@ -183,7 +185,7 @@ function Diff(props) {
             </Row>
           </Container>
           <Container>
-            {transcriptData && transcriptData.transcript ? (
+            {sttTranscript ? (
                 <>
                 <Row>
                     <Col xs={12} sm={12} md={12} lg={2} xl={2}></Col>
