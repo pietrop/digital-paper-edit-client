@@ -50,6 +50,13 @@ const defaultTimecodeOffset = '00:00:00:00';
 const defaultSampleRate = '16000';
 const INSERT_POINT_ELEMENT = { type: 'insert-point', text: 'Insert Point to add selection' }
 
+const reCalculateIndex = (elements)=>{
+  return elements.map((el,index)=>{
+    el.index = index;
+    return el;
+  })
+}
+
 class ProgramScript extends Component {
   constructor(props) {
     super(props);
@@ -58,6 +65,7 @@ class ProgramScript extends Component {
       programmeScript: null,
       resetPreview: false,
       isAdvancedSelect: false,
+      cutSectionIndexes: null,
       // demo content
       playlist:[
         // start - is relative to timeline
@@ -90,6 +98,7 @@ class ProgramScript extends Component {
         const programmeScript = json.programmeScript;
         // Adding an insert point at the end of the list
         programmeScript.elements.push(INSERT_POINT_ELEMENT);
+        // reCalculateIndex(programmeScript.elements)
         this.setState({
           programmeScript: programmeScript
         });
@@ -112,7 +121,7 @@ class ProgramScript extends Component {
   // TODO: save to server
   handleProgrammeScriptOrderChange = (list) => {
     this.setState(({ programmeScript }) => {
-      programmeScript.elements = list;
+      programmeScript.elements = reCalculateIndex(list);
 
       return {
         programmeScript: programmeScript
@@ -131,7 +140,7 @@ class ProgramScript extends Component {
       const index = i;
       const list = programmeScript.elements;
       list.splice(index, 1);
-      programmeScript.elements = list;
+      programmeScript.elements = reCalculateIndex(list);
 
       return {
         programmeScript: programmeScript
@@ -151,6 +160,9 @@ class ProgramScript extends Component {
     if (newText) {
       currentElement.text = newText;
       elements[i] = currentElement;
+      // TODO: commented out coz in theory in a edit of single elemnt
+      // index order should not be changing(?)
+      // programmeScript.elements = reCalculateIndex(elements);
       programmeScript.elements = elements;
       // TODO: save to server
       this.setState({
@@ -168,7 +180,7 @@ class ProgramScript extends Component {
   handleAddTranscriptElementToProgrammeScript = (elementType, indexNumber) => {
     console.log('handleAddTranscriptElementToProgrammeScript', elementType, indexNumber)
     const { programmeScript } = this.state;
-    const elements = this.state.programmeScript.elements;
+    const elements = [...this.state.programmeScript.elements];
     // TODO: refactor - with helper functions
     if (elementType === 'title'
       || elementType === 'note'
@@ -189,7 +201,7 @@ class ProgramScript extends Component {
         };
 
         elements.splice(indexOfInsertPoint, 0, newElement);
-        programmeScript.elements = elements;
+        programmeScript.elements = reCalculateIndex(elements);
         // TODO: save to server
         this.setState({
           programmeScript: programmeScript
@@ -249,7 +261,7 @@ class ProgramScript extends Component {
         };
         // add element just above of insert point
         elements.splice(indexOfInsertPoint, 0, newElement);
-        programmeScript.elements = elements;
+        programmeScript.elements = reCalculateIndex(elements);
       }
       else {
         const paragraphs = divideWordsSelectionsIntoParagraphs(result.words);
@@ -268,7 +280,7 @@ class ProgramScript extends Component {
           };
           // add element just above of insert point
           elements.splice(indexOfInsertPoint, 0, newElement);
-          programmeScript.elements = elements;
+          programmeScript.elements = reCalculateIndex(elements);
         });
       }
       // TODO: save to server
@@ -317,7 +329,7 @@ class ProgramScript extends Component {
         };
         // add element just above of insert point
         elements.splice(indexOfInsertPoint, 0, newElement);
-        programmeScript.elements = elements;
+        programmeScript.elements = reCalculateIndex(elements);
       }
       else {
         const paragraphs = divideWordsSelectionsIntoParagraphs(result.words);
@@ -336,7 +348,7 @@ class ProgramScript extends Component {
           };
           // add element just above of insert point
           elements.splice(indexOfInsertPoint, 0, newElement);
-          programmeScript.elements = elements;
+          programmeScript.elements = reCalculateIndex(elements);
         });
       }
       // TODO: save to server
@@ -713,7 +725,7 @@ class ProgramScript extends Component {
         elements.splice(indexOfInsertPoint, 1);
       }
 
-      latestProgrammeScript.elements = elements;
+      latestProgrammeScript.elements = reCalculateIndex(elements);
       ApiWrapper.updatePaperEdit(this.props.projectId, this.props.papereditId, latestProgrammeScript)
         .then((json) => {
           if (json.status === 'ok') {
@@ -744,6 +756,7 @@ class ProgramScript extends Component {
       const latestProgrammeScript = {...programmeScript}
       // latestProgrammeScript.elements = [];
       latestProgrammeScript.elements = [{...INSERT_POINT_ELEMENT}]
+      latestProgrammeScript.elements = reCalculateIndex( latestProgrammeScript.elements)
       ApiWrapper.updatePaperEdit(this.props.projectId, this.props.papereditId, latestProgrammeScript)
       .then((json) => {
         if (json.status === 'ok') {
@@ -796,6 +809,92 @@ class ProgramScript extends Component {
     })
   }
 
+  cutMoveProgrammeScriptSection = (indexNumber) =>{
+    console.log('cutMoveProgrammeScriptSection',indexNumber)
+    const { programmeScript } = this.state;
+    const latestProgrammeScript = {...programmeScript}
+
+    if (latestProgrammeScript) {
+      const elements = [...latestProgrammeScript.elements];
+
+      const titleElementStartOfSection = elements.filter((el) => {
+        return  el.index === indexNumber;
+      })[0];
+      console.log('titleElementStartOfSection', titleElementStartOfSection);
+
+      const titleElements = elements.filter((el) => {
+        return  el.type === 'title';
+      });
+      console.log('titleElements', titleElements)
+      if(titleElements.length <= 1){
+        console.log('only one titleElements - secition', titleElements)
+        alert('Need to have more then one section title in the in programme script to be able to move it via cut paste. Add another section title and try again.')
+      }
+      else{
+      const startSectionIndex = indexNumber;
+      console.log('startSectionIndex', startSectionIndex);
+      console.log(' elements[indexNumber]',  elements[indexNumber]);
+   
+      // index
+       // find next title after that index.
+
+       const nextTitleElementEndOfSection = elements.find((el) => {
+        return  ((el.type === 'title') 
+        && (el.id!==titleElementStartOfSection.id)
+        && (el.index>titleElementStartOfSection.index )
+        ) ;
+      });
+      console.log('nextTitleElementEndOfSection', nextTitleElementEndOfSection)
+      let sectionEndIndex;
+      // nextTitleElementEndOfSection - undefined mostlikely mean that is last element of the list 
+      if(!nextTitleElementEndOfSection){
+        sectionEndIndex = elements.length;
+      }
+      else{
+        sectionEndIndex = nextTitleElementEndOfSection.index;
+      }
+
+      console.log('sectionEndIndex', sectionEndIndex);
+      console.log('indexes', startSectionIndex,sectionEndIndex);
+      this.setState({
+        cutSectionIndexes: {start:startSectionIndex, end: sectionEndIndex}
+      })
+      }
+    }
+    else{
+      console.log('no programme script')
+    }
+  }
+
+  handleMoveCutSection = (insertIndex)=>{
+    console.log('handleMoveCutSection',insertIndex)
+    const {cutSectionIndexes} = this.state;
+    if(cutSectionIndexes){
+      const {start,end} = cutSectionIndexes;
+      console.log(start,end)
+      if(insertIndex< start || insertIndex > end ){
+        const { programmeScript } = this.state;
+        const latestProgrammeScript = {...programmeScript}
+        if (latestProgrammeScript) {
+          const elements = [...latestProgrammeScript.elements];
+          const sectionCount = end-start;
+          // add section
+          const slicedElements = elements.slice(start, end);
+          elements.splice(insertIndex+1, 0, ...slicedElements)
+          // remove section 
+          elements.splice(start,sectionCount)
+          // save
+          this.handleProgrammeScriptOrderChange(elements);
+          // reset index selections 
+          this.setState({cutSectionIndexes: null});
+        }
+      }
+      else{
+        console.log('can only insert at end of the section (?)')
+        alert('can only insert outside of the section you are cutting')
+      }
+    }
+  }
 
   render() {
     return (
@@ -997,6 +1096,9 @@ class ProgramScript extends Component {
                 handleAddTranscriptElementToProgrammeScript={this.handleAddTranscriptElementToProgrammeScript}
                 handleAddTranscriptSelectionToProgrammeScriptTmpSave={this.handleAddTranscriptSelectionToProgrammeScriptTmpSave}
                 handleChangeInsertPointPosition={this.handleChangeInsertPointPosition}
+                cutMoveProgrammeScriptSection={this.cutMoveProgrammeScriptSection}
+                cutSectionIndexes={this.state.cutSectionIndexes}
+                handleMoveCutSection={this.handleMoveCutSection}
                 />
                 : null }
             </article>
