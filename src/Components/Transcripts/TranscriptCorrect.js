@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import path from 'path';
-// import './index.module.css';
-// import styles from './Transcript.module.css';
 // TODO: perhaps import TranscriptEditor on componentDidMount(?) to defer the load for later
 // https://facebook.github.io/create-react-app/docs/code-splitting
 import { TranscriptEditor } from '@pietrop/react-transcript-editor';
@@ -10,10 +8,13 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import { Redirect } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faNotEqual
+} from '@fortawesome/free-solid-svg-icons';
 import CustomBreadcrumb from '../lib/CustomBreadcrumb/index.js';
 // import CustomFooter from '../lib/CustomFooter/index.js';
 import ApiWrapper from '../../ApiWrapper/index.js';
-import CustomFooter from '../lib/CustomFooter/index.js';
 import CustomAlert from '../lib/CustomAlert/index.js';
 
 class TranscriptCorrect extends Component {
@@ -120,16 +121,18 @@ class TranscriptCorrect extends Component {
     });
   }
 
-  redirectToAnnotatePage = () => {
+  redirectToDiff = () => {
     // this.state.projectId this.state.transcriptId
     this.setState({
       redirect: true
     });
   }
 
+
+
   renderRedirect = () => {
     if (this.state.redirect) {
-      return <Redirect to={ `/projects/${ this.state.projectId }/transcripts/${ this.state.newTranscriptId }/annotate` } />;
+      return <Redirect to={ `/projects/${ this.state.projectId }/transcripts/${ this.state.transcriptId }/diff` } />;
     }
   }
 
@@ -153,7 +156,7 @@ class TranscriptCorrect extends Component {
         <Container style={ { marginBottom: '5em' } } fluid>
           <br/>
           <Row>
-            <Col sm={ 12 } md={ 11 } ld={ 11 } xl={ 11 } style={{marginBottom: '0'}}>
+            <Col sm={ 12 } md={ 10 } ld={ 10 } xl={ 10 } style={{marginBottom: '0'}}>
               <CustomBreadcrumb
                 items={ [ {
                   name: 'Projects',
@@ -175,12 +178,17 @@ class TranscriptCorrect extends Component {
                 ] }
               />
             </Col>
-            {/* <Col xs={ 12 } sm={ 2 } md={ 2 } ld={ 2 } xl={ 2 }>
-              <Button variant="outline-secondary" onClick={ this.redirectToAnnotatePage } size="lg" block>
-              Annotate
+            <Col xs={ 12 } sm={ 1 } md={ 1 } ld={ 1 } xl={ 1 }>
+              <Button 
+                variant="outline-secondary" 
+                onClick={ this.redirectToDiff }
+                size="lg" 
+                title="See the differences between the initial STT automated transcription and your latest correction, remember to save."
+                block>
+               <FontAwesomeIcon icon={faNotEqual}/>
               </Button>
               <br/>
-            </Col> */}
+            </Col>
             <Col xs={ 12 } sm={ 1 } md={ 1 } ld={ 1 } xl={ 1 }>
               <Button variant="outline-secondary" onClick={ this.saveToServer } size="lg" block>
               Save

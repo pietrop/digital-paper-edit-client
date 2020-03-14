@@ -11,6 +11,9 @@ class ApiWrapper {
   projectsIdUrl = (projectId) => `${ this.projectsUrl }/${ projectId }`;
 
   transcriptsUrl = (projectId) => `${ this.projectsIdUrl(projectId) }/transcripts`;
+  // http://localhost:3000/#/projects/1cjw29xii80000ird74yb19swa/transcripts/19cjw29xii80000ird74yb19swa/diff
+  transcriptsOriginalSTTUrl = (projectId, transcriptId) => `${ this.transcriptsUrl(projectId)}/${transcriptId}/transcript-original-stt`;
+
   transcriptsIdUrl = (projectId, transcriptId, queryParamsOptions) => {
     const queryParams = queryParamsOptions
       ? `?${ querystring.stringify(queryParamsOptions) }`
@@ -330,6 +333,15 @@ class ApiWrapper {
       }
       resolve(ffmpegRemixData)
     })
+  }
+
+  // TODO
+  async getOriginalSttTranscripts(projectId, transcriptId) {
+    console.log('this.transcriptsOriginalSTTUrl(projectId)', this.transcriptsOriginalSTTUrl(projectId, transcriptId))
+    const res = await corsFetch(this.transcriptsOriginalSTTUrl(projectId, transcriptId));
+    const json = await res.json();
+
+    return json;
   }
 }
 
