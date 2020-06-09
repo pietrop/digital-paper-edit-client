@@ -1,39 +1,43 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"/><link rel="shortcut icon" href="./favicon.ico"/><meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no"/><meta name="theme-color" content="#000000"/><link rel="manifest" href="./manifest.json"/><title></title><link href="./static/css/2.c6250e3a.chunk.css" rel="stylesheet"><link href="./static/css/main.31606dd4.chunk.css" rel="stylesheet"></head><body><script type="text/javascript">if(window.process && window.process.versions.electron){
-        // Electron Wrapper needs to be on the electron render process
-        // if not, if instead it's added via the main process the app will hang
-        // at the moment this works, in production. 
-        // eg do react build, move the build folder in digital-paper-edit-electron repo
-        // and when you start npm run start:prod the app will work
-        // however it means that in development npm start:dev in digital-paper-edit-electron won't work. 
-        // because in development the electron-main.js looks for the app served by webpack, 
-        // in development the path below to load src/ElectronWrapper/index.js doesn't resolve as they are in two different repos
-        const { app } = require('electron').remote;
+<!doctype html><html lang="en"><head><meta charset="utf-8"/><link rel="shortcut icon" href="./favicon.ico"/><meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no"/><meta name="theme-color" content="#000000"/><link rel="manifest" href="./manifest.json"/><title></title><link href="./static/css/8.c6250e3a.chunk.css" rel="stylesheet"><link href="./static/css/main.61a3f449.chunk.css" rel="stylesheet"></head><body><script type="text/javascript">if (window.process && window.process.versions.electron) {
+      console.info('process.versions.node', process.versions.node);
+      console.info('process.versions.chrome', process.versions.chrome);
+      console.info('process.versions.electron', process.versions.electron);
+      // Electron Wrapper needs to be on the electron render process
+      // if not, if instead it's added via the main process the app will hang
+      // at the moment this works, in production. 
+      // eg do react build, move the build folder in digital-paper-edit-electron repo
+      // and when you start npm run start:prod the app will work
+      // however it means that in development npm start:dev in digital-paper-edit-electron won't work. 
+      // because in development the electron-main.js looks for the app served by webpack, 
+      // in development the path below to load src/ElectronWrapper/index.js doesn't resolve as they are in two different repos
+      const { ipcRenderer } = require('electron');
+      const appPath = ipcRenderer.sendSync('synchronous-message-get-app-path', 'ping');
+      const path = require('path');
+      // changing path to simplify being able to load electron wrapper from this index.html file, 
+      // which will be deep in node_modules
+      window.process.chdir(appPath)
+      window.appPath = appPath;
+      const ElectronWrapper = require(path.join(appPath, 'src', 'ElectronWrapper', 'index.js'));
+      window.ElectronWrapper = ElectronWrapper;
+    }
+
+    if (window.process && window.process.versions.cep) {
+
+      try {
+        console.log('__dirname', __dirname)
+        console.log('process.cwd()', process.cwd())
+        /////////////////////////
+        console.log('  process.chdir(__dirname);')
+        process.chdir(__dirname);
+        /////////////////////////
+        console.log('__dirname', __dirname)
+        console.log('process.cwd()', process.cwd())
+
         const path = require('path');
-        const appPath = app.getAppPath();
-        // changing path to simplify being able to load electron wrapper from this index.html file, 
-        // which will be deep in node_modules
-        window.process.chdir(appPath)
-        const ElectronWrapper = require(path.join(appPath,'src','ElectronWrapper','index.js'));
-        window.ElectronWrapper = ElectronWrapper;
+        const AdobeCEPWrapper = require(path.join(__dirname, 'src', 'AdobeCEPWrapper', 'index.js'));
+        window.AdobeCEPWrapper = AdobeCEPWrapper;
       }
-
-      if(window.process && window.process.versions.cep) {
-
-        try {
-            console.log('__dirname',__dirname)
-            console.log('process.cwd()',process.cwd())
-            /////////////////////////
-             console.log('  process.chdir(__dirname);')
-            process.chdir(__dirname);
-            /////////////////////////
-            console.log('__dirname',__dirname)
-            console.log('process.cwd()',process.cwd())
-            
-            const path = require('path');
-            const AdobeCEPWrapper = require(path.join(__dirname,'src','AdobeCEPWrapper','index.js'));
-            window.AdobeCEPWrapper = AdobeCEPWrapper;
-          }
-          catch (err) {
-            console.log('chdir: ' + err);
-          }
-      }</script><noscript>You need to enable JavaScript to run this app.</noscript><div id="root"></div><script src="./env.js"></script><script>!function(l){function e(e){for(var t,r,n=e[0],o=e[1],i=e[2],u=0,p=[];u<n.length;u++)r=n[u],Object.prototype.hasOwnProperty.call(f,r)&&f[r]&&p.push(f[r][0]),f[r]=0;for(t in o)Object.prototype.hasOwnProperty.call(o,t)&&(l[t]=o[t]);for(s&&s(e);p.length;)p.shift()();return c.push.apply(c,i||[]),a()}function a(){for(var e,t=0;t<c.length;t++){for(var r=c[t],n=!0,o=1;o<r.length;o++){var i=r[o];0!==f[i]&&(n=!1)}n&&(c.splice(t--,1),e=u(u.s=r[0]))}return e}var r={},f={1:0},c=[];function u(e){if(r[e])return r[e].exports;var t=r[e]={i:e,l:!1,exports:{}};return l[e].call(t.exports,t,t.exports,u),t.l=!0,t.exports}u.m=l,u.c=r,u.d=function(e,t,r){u.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:r})},u.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},u.t=function(t,e){if(1&e&&(t=u(t)),8&e)return t;if(4&e&&"object"==typeof t&&t&&t.__esModule)return t;var r=Object.create(null);if(u.r(r),Object.defineProperty(r,"default",{enumerable:!0,value:t}),2&e&&"string"!=typeof t)for(var n in t)u.d(r,n,function(e){return t[e]}.bind(null,n));return r},u.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return u.d(t,"a",t),t},u.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},u.p="./";var t=this["webpackJsonp@pietrop/digital-paper-edit-client"]=this["webpackJsonp@pietrop/digital-paper-edit-client"]||[],n=t.push.bind(t);t.push=e,t=t.slice();for(var o=0;o<t.length;o++)e(t[o]);var s=n;a()}([])</script><script src="./static/js/2.d0b925b2.chunk.js"></script><script src="./static/js/main.71b07b4b.chunk.js"></script></body></html>
+      catch (err) {
+        console.log('chdir: ' + err);
+      }
+    }</script><noscript>You need to enable JavaScript to run this app.</noscript><div id="root"></div><script src="./env.js"></script><script>!function(u){function e(e){for(var t,r,n=e[0],o=e[1],a=e[2],c=0,i=[];c<n.length;c++)r=n[c],Object.prototype.hasOwnProperty.call(s,r)&&s[r]&&i.push(s[r][0]),s[r]=0;for(t in o)Object.prototype.hasOwnProperty.call(o,t)&&(u[t]=o[t]);for(h&&h(e);i.length;)i.shift()();return d.push.apply(d,a||[]),f()}function f(){for(var e,t=0;t<d.length;t++){for(var r=d[t],n=!0,o=1;o<r.length;o++){var a=r[o];0!==s[a]&&(n=!1)}n&&(d.splice(t--,1),e=p(p.s=r[0]))}return e}var r={},l={7:0},s={7:0},d=[];function p(e){if(r[e])return r[e].exports;var t=r[e]={i:e,l:!1,exports:{}};return u[e].call(t.exports,t,t.exports,p),t.l=!0,t.exports}p.e=function(d){var e=[];l[d]?e.push(l[d]):0!==l[d]&&{13:1,15:1}[d]&&e.push(l[d]=new Promise(function(e,n){for(var t="static/css/"+({}[d]||d)+"."+{0:"31d6cfe0",1:"31d6cfe0",2:"31d6cfe0",3:"31d6cfe0",4:"31d6cfe0",5:"31d6cfe0",9:"31d6cfe0",10:"31d6cfe0",11:"31d6cfe0",12:"31d6cfe0",13:"5c731653",14:"31d6cfe0",15:"2d8ee6eb",16:"31d6cfe0",17:"31d6cfe0",18:"31d6cfe0",19:"31d6cfe0",20:"31d6cfe0"}[d]+".chunk.css",o=p.p+t,r=document.getElementsByTagName("link"),a=0;a<r.length;a++){var c=(u=r[a]).getAttribute("data-href")||u.getAttribute("href");if("stylesheet"===u.rel&&(c===t||c===o))return e()}var i=document.getElementsByTagName("style");for(a=0;a<i.length;a++){var u;if((c=(u=i[a]).getAttribute("data-href"))===t||c===o)return e()}var f=document.createElement("link");f.rel="stylesheet",f.type="text/css",f.onload=e,f.onerror=function(e){var t=e&&e.target&&e.target.src||o,r=new Error("Loading CSS chunk "+d+" failed.\n("+t+")");r.code="CSS_CHUNK_LOAD_FAILED",r.request=t,delete l[d],f.parentNode.removeChild(f),n(r)},f.href=o,document.getElementsByTagName("head")[0].appendChild(f)}).then(function(){l[d]=0}));var r=s[d];if(0!==r)if(r)e.push(r[2]);else{var t=new Promise(function(e,t){r=s[d]=[e,t]});e.push(r[2]=t);var n,o=document.createElement("script");o.charset="utf-8",o.timeout=120,p.nc&&o.setAttribute("nonce",p.nc),o.src=p.p+"static/js/"+({}[d]||d)+"."+{0:"04e51c36",1:"89e6e987",2:"ad544994",3:"ece19455",4:"eced95bb",5:"1436cae2",9:"d9f57e91",10:"4410e925",11:"c1098840",12:"11743f71",13:"16d076e2",14:"8f20cb02",15:"637a2b04",16:"674747a4",17:"2fc52df9",18:"25a0cac6",19:"740d7d11",20:"8d394b50"}[d]+".chunk.js";var a=new Error;n=function(e){o.onerror=o.onload=null,clearTimeout(c);var t=s[d];if(0!==t){if(t){var r=e&&("load"===e.type?"missing":e.type),n=e&&e.target&&e.target.src;a.message="Loading chunk "+d+" failed.\n("+r+": "+n+")",a.name="ChunkLoadError",a.type=r,a.request=n,t[1](a)}s[d]=void 0}};var c=setTimeout(function(){n({type:"timeout",target:o})},12e4);o.onerror=o.onload=n,document.head.appendChild(o)}return Promise.all(e)},p.m=u,p.c=r,p.d=function(e,t,r){p.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:r})},p.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},p.t=function(t,e){if(1&e&&(t=p(t)),8&e)return t;if(4&e&&"object"==typeof t&&t&&t.__esModule)return t;var r=Object.create(null);if(p.r(r),Object.defineProperty(r,"default",{enumerable:!0,value:t}),2&e&&"string"!=typeof t)for(var n in t)p.d(r,n,function(e){return t[e]}.bind(null,n));return r},p.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return p.d(t,"a",t),t},p.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},p.p="./",p.oe=function(e){throw console.error(e),e};var t=this["webpackJsonp@pietrop/digital-paper-edit-client"]=this["webpackJsonp@pietrop/digital-paper-edit-client"]||[],n=t.push.bind(t);t.push=e,t=t.slice();for(var o=0;o<t.length;o++)e(t[o]);var h=n;f()}([])</script><script src="./static/js/8.91414c6c.chunk.js"></script><script src="./static/js/main.6154a5b8.chunk.js"></script></body></html>
